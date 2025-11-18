@@ -11,8 +11,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-    //   "https://restaurant-6febb.web.app",
-    //   "https://restaurant-6febb.firebaseapp.com",
+      //   "https://restaurant-6febb.web.app",
+      //   "https://restaurant-6febb.firebaseapp.com",
     ],
     credentials: true,
   })
@@ -35,11 +35,13 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
 
-    const usersCollection = client.db("ElectroMart").collection("users");
-    const productCollection = client.db("ElectroMart").collection("products");
-    const reviewCollection = client.db("ElectroMart").collection("review");
-    const orderCollection = client.db("ElectroMart").collection("order");
-    const paymentCollection = client.db("ElectroMart").collection("payment");
+    const roomssCollection = client.db("rest-house").collection("rooms");
+
+    // get all rooms
+    app.get('/rooms',async (req,res)=>{
+      const result = await roomssCollection.find().toArray();
+      res.send(result);
+    })
 
     // await client.db("admin").command({ ping: 1 });
     console.log(
