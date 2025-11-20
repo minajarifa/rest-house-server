@@ -1,10 +1,10 @@
 require("dotenv").config();
 const express = require("express");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const app = express();
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 app.use(express.json());
-// const cookieParser = require("cookie-parser");
 const port = process.env.PORT || 9000;
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 app.use(
@@ -15,9 +15,10 @@ app.use(
       //   "https://restaurant-6febb.firebaseapp.com",
     ],
     credentials: true,
+    optionSuccessStatus: 200,
   })
 );
-
+app.use(cookieParser())
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.63qrdth.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 // const uri = `mongodb://localhost:27017`;
 
@@ -38,10 +39,10 @@ async function run() {
     const roomssCollection = client.db("rest-house").collection("rooms");
 
     // get all rooms
-    app.get('/rooms',async (req,res)=>{
+    app.get("/rooms", async (req, res) => {
       const result = await roomssCollection.find().toArray();
       res.send(result);
-    })
+    });
 
     // await client.db("admin").command({ ping: 1 });
     console.log(
