@@ -84,7 +84,6 @@ async function run() {
         res.status(500).send(err);
       }
     });
-
     // get all rooms
     app.get("/rooms", async (req, res) => {
       const category = req.query.category;
