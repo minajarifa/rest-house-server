@@ -88,7 +88,7 @@ async function run() {
     app.get("/rooms", async (req, res) => {
       const category = req.query.category;
       let query = {};
-      if (category&& category!=="null") {
+      if (category && category !== "null") {
         query = { category };
       }
       const result = await roomssCollection.find(query).toArray();
@@ -99,7 +99,13 @@ async function run() {
       const result = await roomssCollection.findOne({ _id: new ObjectId(id) });
       res.send(result);
     });
-
+    // save a room data in db
+    app.post("/room", async (req, res) => {
+      const roomData = req.body;
+      console.log(roomData)
+      // const result =await roomssCollection.insertOne(roomData);
+      // res.send(result);
+    });
     // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
