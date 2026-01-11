@@ -103,8 +103,8 @@ async function run() {
     app.post("/room", async (req, res) => {
       const roomData = req.body;
       console.log(roomData)
-      // const result =await roomssCollection.insertOne(roomData);
-      // res.send(result);
+      const result =await roomssCollection.insertOne(roomData);
+      res.send(result);
     });
     // await client.db("admin").command({ ping: 1 });
     console.log(
