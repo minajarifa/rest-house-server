@@ -16,7 +16,7 @@ app.use(
     ],
     credentials: true,
     optionSuccessStatus: 200,
-  })
+  }),
 );
 app.use(cookieParser());
 
@@ -84,7 +84,8 @@ async function run() {
         res.status(500).send(err);
       }
     });
-    // get all rooms
+
+    // get all rooms from db
     app.get("/rooms", async (req, res) => {
       const category = req.query.category;
       let query = {};
@@ -102,13 +103,28 @@ async function run() {
     // save a room data in db
     app.post("/room", async (req, res) => {
       const roomData = req.body;
-      console.log(roomData)
-      const result =await roomssCollection.insertOne(roomData);
+      const result = await roomssCollection.insertOne(roomData);
       res.send(result);
     });
+    // get all data for host
+    app.get("/my-listing/:email", async (req, res) => {
+      const email = req?.params?.email;
+      console.log("email",email)
+      let query = {'host.email':email};
+      console.log("query",query)
+      const result = await roomssCollection.find(query).toArray();
+      // console.log("result",result)
+      res.send(result);
+    });
+    // app.post("/room", async (req, res) => {
+    //   const roomData = req.body;
+    //   console.log(roomData)
+    //   const result =await roomssCollection.insertOne(roomData);
+    //   res.send(result);
+    // });
     // await client.db("admin").command({ ping: 1 });
     console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
+      "Pinged your deployment. You successfully connected to MongoDB!",
     );
   } finally {
     // Ensures that the client will close when you finish/error
